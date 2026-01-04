@@ -3,6 +3,21 @@ import SuccessModal from './SuccessModal';
 import { db } from "../firebase";
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
+/**
+ * Hero Component
+ * 
+ * The primary landing section of the application.
+ * Features:
+ * - Dynamic background image slider with animations
+ * - Animated text and call-to-action buttons
+ * - Integrated "Quick Booking" form
+ * - Responsive layout for mobile and desktop
+ */
+
+/**
+ * Static Data: Hero Slides
+ * Promotional offers displayed in the background slider.
+ */
 const offers = [
   {
     id: 1,
@@ -68,6 +83,11 @@ export default function Hero() {
     return () => clearInterval(timer);
   }, []);
 
+  /**
+   * Form Handler: Quick Booking
+   * Captures form data and saves it to the 'bookings' collection in Firestore.
+   * Shows success modal upon completion.
+   */
   const handleBooking = async (e) => {
     e.preventDefault();
     setLoading(true);

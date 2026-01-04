@@ -3,6 +3,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 
+/**
+ * Dashboard Component
+ * 
+ * User's personal dashboard to manage bookings and view stats.
+ * Wraps functionality for:
+ * - User authentication state monitoring
+ * - Profile management
+ * - Booking history visualization
+ * - Activity statistics
+ */
 export default function Dashboard() {
   const navigate = useNavigate();
   const [activeNav, setActiveNav] = useState('overview');
@@ -10,7 +20,11 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-  // Listen for auth state changes
+  /**
+   * Effect: Auth State Listener
+   * Subscribes to Firebase Auth changes to maintain user session state.
+   * Updates loading state once auth is resolved.
+   */
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -20,7 +34,9 @@ export default function Dashboard() {
     return () => unsubscribe();
   }, [navigate]);
 
-  // Handle logout
+  /**
+   * Signs out the current user and redirects to login page.
+   */
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -30,7 +46,10 @@ export default function Dashboard() {
     }
   };
 
-  // Get user initials
+  /**
+   * Helper: Extracts initials from display name or email.
+   * Returns 'TP' (Tour Panda) as fallback.
+   */
   const getUserInitials = () => {
     if (user?.displayName) {
       const names = user.displayName.split(' ');

@@ -1,9 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * Footer Component
+ * 
+ * Main application footer displayed at the bottom of all pages.
+ * Features:
+ * - Quick links to main sections and tours
+ * - Contact information and social media links
+ * - Newsletter subscription form
+ * - Copyright and legal links
+ */
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
+  /**
+   * Static Data: Navigation Links
+   * Grouped links for the footer columns.
+   */
   const footerLinks = {
     quickLinks: [
       { name: "Home", href: "/#home" },

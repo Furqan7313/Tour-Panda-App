@@ -1,9 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import BookingModal from './BookingModal';
+import { db } from '../firebase';
+import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 
-// Trip Packages Data
-const tripPackages = [
+/**
+ * Tours Component
+ * 
+ * Main catalog exhibition component.
+ * Features:
+ * - Horizontal scrolling category list
+ * - Dynamic trip filtering
+ * - Grid display of tour cards
+ * - Integration with BookingModal
+ * - Real-time data syncing
+ */
+
+// Default Trip Packages Data (fallback when Firebase is empty)
+const defaultTripPackages = [
   {
     id: "hunza-skardu-8days",
     name: "Hunza + Skardu",
@@ -175,8 +189,8 @@ const tripPackages = [
   }
 ];
 
-// Tour Categories Data - with images instead of emojis
-const tourCategories = [
+// Default Tour Categories Data (fallback when Firebase is empty)
+const defaultTourCategories = [
   {
     id: "corporate",
     name: "Corporate Tours",
@@ -224,8 +238,43 @@ export default function Tours() {
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [activeFilter, setActiveFilter] = useState('all');
   const [isVisible, setIsVisible] = useState(false);
+  const [tripPackages, setTripPackages] = useState(defaultTripPackages);
+  const [tourCategories, setTourCategories] = useState(defaultTourCategories);
+  const [loading, setLoading] = useState(true);
   const sectionRef = useRef(null);
   const categoryScrollRef = useRef(null);
+
+  // Fetch trips and categories from Firebase
+  useEffect(() => {
+    // Fetch trips
+    const tripsQ = query(collection(db, "trips"), orderBy("createdAt", "desc"));
+    const unsubTrips = onSnapshot(tripsQ, (snap) => {
+      const firebaseTrips = snap.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+      if (firebaseTrips.length > 0) {
+        setTripPackages(firebaseTrips);
+      }
+      setLoading(false);
+    }, (error) => {
+      console.log("Using default trips:", error);
+      setLoading(false);
+    });
+
+    // Fetch categories
+    const catsQ = query(collection(db, "categories"));
+    const unsubCats = onSnapshot(catsQ, (snap) => {
+      const firebaseCats = snap.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+      if (firebaseCats.length > 0) {
+        setTourCategories(firebaseCats);
+      }
+    }, (error) => {
+      console.log("Using default categories:", error);
+    });
+
+    return () => {
+      unsubTrips();
+      unsubCats();
+    };
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -244,7 +293,11 @@ export default function Tours() {
     return () => observer.disconnect();
   }, []);
 
-  // Auto-scroll categories
+  /**
+   * Effect: Category Auto-Scroll
+   * Creates a gentle back-and-forth scrolling animation for the category list.
+   * Pauses on mouse hover.
+   */
   useEffect(() => {
     const scrollContainer = categoryScrollRef.current;
     if (!scrollContainer) return;
@@ -283,7 +336,10 @@ export default function Tours() {
     };
   }, [isVisible]);
 
-  // Filter trips based on active filter
+  /**
+   * Filter Logic
+   * Returns subset of trips matching the selected category.
+   */
   const filteredTrips = activeFilter === 'all'
     ? tripPackages
     : tripPackages.filter(trip => trip.category === activeFilter);

@@ -3,6 +3,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import { signInWithPopup, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, googleProvider, sendMagicLink } from '../firebase';
 
+/**
+ * SignIn Component
+ * 
+ * Handles user authentication via:
+ * 1. Email/Password (Firebase Auth)
+ * 2. Google OAuth (Firebase Popup)
+ * 3. Magic Link (Passwordless email login)
+ * 
+ * Features:
+ * - Form validation and error handling
+ * - Interactive UI with animations
+ * - Responsive layout with split view (visual + form)
+ */
 export default function SignIn() {
   const navigate = useNavigate();
   const [focusedInput, setFocusedInput] = useState(null);
@@ -15,7 +28,10 @@ export default function SignIn() {
   const [magicLinkEmail, setMagicLinkEmail] = useState('');
   const [magicLinkSent, setMagicLinkSent] = useState(false);
 
-  // Handle email/password sign in
+  /**
+   * Authenticates user with email and password.
+   * Redirects to dashboard on success.
+   */
   const handleEmailSignIn = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -31,7 +47,13 @@ export default function SignIn() {
     }
   };
 
-  // Handle social sign in
+  /**
+   * Authenticates user using a social provider (Google).
+   * Handles specific error cases like popup closure or existing accounts.
+   * 
+   * @param {object} provider - Firebase auth provider instance
+   * @param {string} providerName - Name of the provider for error messages
+   */
   const handleSocialSignIn = async (provider, providerName) => {
     setLoading(true);
     setError('');
@@ -53,7 +75,10 @@ export default function SignIn() {
     }
   };
 
-  // Handle magic link
+  /**
+   * Initiates the passwordless login flow.
+   * Sends a sign-in link to the user's email.
+   */
   const handleMagicLink = async () => {
     if (!magicLinkEmail) {
       setError('Please enter your email');

@@ -2,7 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { db } from "../firebase";
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
-// Trip packages for dropdown
+/**
+ * BookingModal Component
+ * 
+ * A comprehensive booking form modal.
+ * Features:
+ * - Dynamic data loading for packages and categories
+ * - Form validation and calculation
+ * - Firebase integration for booking submission
+ * - Success feedback animation
+ */
+
+/**
+ * Static Data: Trip Packages
+ * List of available packages for selection in the form.
+ */
 const tripPackages = [
     { id: "hunza-skardu-8days", name: "Hunza + Skardu", duration: "8 Days", price: "85,000" },
     { id: "hunza-naran-5days", name: "Hunza + Naran Kaghan", duration: "5 Days", price: "55,000" },
@@ -29,6 +43,11 @@ const tourCategories = [
     { id: "custom", name: "Customized Tours", icon: "✨" },
 ];
 
+/**
+ * @param {boolean} isOpen - Controls modal visibility
+ * @param {function} onClose - Function to close the modal
+ * @param {string|null} preSelectedPackage - ID of package to pre-select
+ */
 export default function BookingModal({ isOpen, onClose, preSelectedPackage = null }) {
     const [status, setStatus] = useState("idle"); // idle | sending | success
     const [formData, setFormData] = useState({
@@ -47,7 +66,10 @@ export default function BookingModal({ isOpen, onClose, preSelectedPackage = nul
         specialRequests: ''
     });
 
-    // Calculate trip days from dates
+    /**
+     * Helper: Calculates duration in days between start and end dates.
+     * Includes both start and end dates (inclusive).
+     */
     const calculateTripDays = () => {
         if (formData.startDate && formData.endDate) {
             const start = new Date(formData.startDate);
@@ -105,6 +127,10 @@ export default function BookingModal({ isOpen, onClose, preSelectedPackage = nul
         return tripPackages.find(pkg => pkg.id === formData.tripPackage);
     };
 
+    /**
+     * Handles form submission.
+     * Validates guest count and saves booking to Firestore.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
 

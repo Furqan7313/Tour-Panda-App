@@ -2,6 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { db } from "../firebase";
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
+/**
+ * Contact Component
+ * 
+ * Displays contact information and a messaging form.
+ * Features:
+ * - Interactive contact cards (WhatsApp, Social Media, Location)
+ * - Message submission form linked to Firestore
+ * - Google Maps integration
+ */
 export default function Contact() {
   const [status, setStatus] = useState("idle"); // idle | sending | success
   const [isVisible, setIsVisible] = useState(false);
@@ -24,6 +33,10 @@ export default function Contact() {
     return () => observer.disconnect();
   }, []);
 
+  /**
+   * Form Handler: Message Submission
+   * Captures contact form data and saves it to the 'contacts' collection in Firestore.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("sending");

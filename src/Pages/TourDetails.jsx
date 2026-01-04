@@ -4,7 +4,11 @@ import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import BookingModal from '../Components/BookingModal';
 
-// Trip data for details page
+/**
+ * Static Data: Trip Details
+ * Contains configuration for all available tours.
+ * Keys match the URL parameters.
+ */
 const tripData = {
   "hunza-skardu-8days": {
     name: "Hunza + Skardu",
@@ -137,12 +141,26 @@ const defaultTour = {
   highlights: ["Professional Guides", "Comfortable Transport", "Quality Accommodation", "All Meals Included"]
 };
 
+/**
+ * TourDetails Component
+ * 
+ * Displays detailed information about a specific tour package.
+ * Features:
+ * - Dynamic content loading based on URL 'id' param
+ * - Tabbed interface for Overview, Itinerary, and Services
+ * - Image gallery
+ * - Booking modal integration
+ */
 export default function TourDetails() {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState('overview');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Get tour data or use default
+  /**
+   * Data Resolution
+   * Fetches tour data from static map using ID.
+   * Fallback to 'defaultTour' with formatted name if not found.
+   */
   const tour = tripData[id] || { ...defaultTour, name: id?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'Adventure Tour' };
 
   return (

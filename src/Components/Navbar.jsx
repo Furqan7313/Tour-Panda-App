@@ -1,13 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+/**
+ * Navbar Component
+ * 
+ * Main navigation header for the application.
+ * Features:
+ * - Responsive design with mobile menu toggle
+ * - Scroll awareness for styling changes
+ * - Active section tracking for single-page navigation
+ * - Contact information and social links
+ */
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const location = useLocation();
 
-  // Track scroll position for navbar background effect
+  /**
+   * Effect: Scroll Listener
+   * Toggles 'isScrolled' state based on window scroll position.
+   * Used to adjust navbar transparency and shadow.
+   */
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -16,7 +30,11 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Track active section based on scroll position
+  /**
+   * Effect: Active Section Tracker
+   * Uses IntersectionObserver to determine which section is currently in view.
+   * Updates the active link in the navigation.
+   */
   useEffect(() => {
     // If we're on a tour details page or other route, don't track sections
     if (location.pathname !== '/' && !location.pathname.startsWith('/#')) {
@@ -84,7 +102,7 @@ export default function Navbar() {
           <div className="flex items-center gap-4 md:gap-8">
             <a href="tel:+923001261257" className="flex items-center gap-1.5 sm:gap-2 font-medium group">
               <span className="text-primary transition-transform duration-300 group-hover:scale-125 text-sm sm:text-base">📞</span>
-              <span className="group-hover:text-primary transition-colors duration-300 font-semibold tracking-wide text-[11px] sm:text-sm">0300 126 1257</span>
+              <span className="group-hover:text-primary transition-colors duration-300 font-semibold tracking-wide text-[11px] sm:text-sm">0300 0126 125</span>
             </a>
             <a href="https://mail.google.com/mail/?view=cm&fs=1&to=Tourpandaofficial@gmail.com" target="_blank" rel="noreferrer" className="hidden md:flex items-center gap-2 font-medium group">
               <svg className="w-4 h-4 text-primary transition-transform duration-300 group-hover:scale-125" viewBox="0 0 24 24" fill="currentColor">
@@ -225,8 +243,8 @@ export default function Navbar() {
                 key={link.name}
                 href={link.href}
                 className={`block text-lg sm:text-xl font-bold transition-all duration-300 py-3 px-4 rounded-xl ${isActive(link.section)
-                    ? 'text-nature-green bg-nature-green/10 border-l-4 border-nature-green'
-                    : 'text-nature-black hover:text-nature-green hover:translate-x-2 hover:bg-gray-50'
+                  ? 'text-nature-green bg-nature-green/10 border-l-4 border-nature-green'
+                  : 'text-nature-black hover:text-nature-green hover:translate-x-2 hover:bg-gray-50'
                   }`}
                 onClick={() => setIsOpen(false)}
                 style={{

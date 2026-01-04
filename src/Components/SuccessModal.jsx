@@ -1,5 +1,15 @@
 import React, { useEffect } from 'react';
 
+/**
+ * SuccessModal Component
+ * 
+ * Displays a confirmation message after a successful action (e.g., Booking).
+ * Features:
+ * - Animated appearance
+ * - Backdrop blur
+ * - Keyboard accessibility (Escape key to close)
+ * - Next steps information
+ */
 export default function SuccessModal({ isOpen, onClose }) {
   // Handle escape key to close modal
   useEffect(() => {

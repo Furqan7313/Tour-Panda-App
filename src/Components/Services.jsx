@@ -1,5 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+/**
+ * Services Component
+ * 
+ * Displays key features and inclusions of the tour service.
+ * Features:
+ * - Animated entrance for service cards
+ * - Hover effects for interactive details
+ * - Responsive grid layout
+ */
+
+/**
+ * Static Data: Service Inclusions
+ * List of features provided in tour packages.
+ */
 const serviceData = [
   {
     title: "Luxury Transport",
@@ -56,6 +70,10 @@ export default function Services() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const sectionRef = useRef(null);
 
+  /**
+   * Effect: Scroll Visibility
+   * Triggers entrance animation when the section scrolls into view.
+   */
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -113,8 +131,8 @@ export default function Services() {
               <div className="relative z-10">
                 {/* Icon */}
                 <div className={`w-16 h-16 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center text-3xl lg:text-4xl mb-4 lg:mb-6 transition-all duration-500 ${hoveredIndex === index
-                    ? 'bg-white/20 scale-110 rotate-6'
-                    : 'bg-gradient-to-br from-gray-50 to-gray-100'
+                  ? 'bg-white/20 scale-110 rotate-6'
+                  : 'bg-gradient-to-br from-gray-50 to-gray-100'
                   }`}>
                   <span className="transition-transform duration-300 group-hover:scale-110">
                     {service.icon}

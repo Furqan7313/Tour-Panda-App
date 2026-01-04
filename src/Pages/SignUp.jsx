@@ -3,6 +3,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { signInWithPopup, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth, googleProvider } from '../firebase';
 
+/**
+ * SignUp Component
+ * 
+ * Handles new user registration.
+ * Features:
+ * - Real-time password strength meter
+ * - Email/Password registration with name update
+ * - Google OAuth registration
+ * - Terms of service validation
+ */
 export default function SignUp() {
   const navigate = useNavigate();
   const [focusedInput, setFocusedInput] = useState(null);
@@ -14,7 +24,10 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Password strength calculation
+  /**
+   * Calculates password complexity score (0-4).
+   * Checks for: length > 8, mixed case, numbers, special chars.
+   */
   const getPasswordStrength = () => {
     let strength = 0;
     if (password.length >= 8) strength++;
@@ -28,7 +41,11 @@ export default function SignUp() {
   const strengthColors = ['#EF4444', '#F59E0B', '#10B981', '#059669'];
   const passwordStrength = getPasswordStrength();
 
-  // Handle email/password sign up
+  /**
+   * Creates a new user account with email and password.
+   * Validates terms agreement and password strength.
+   * Updates the user's display name upon successful creation.
+   */
   const handleEmailSignUp = async (e) => {
     e.preventDefault();
 
@@ -59,7 +76,10 @@ export default function SignUp() {
     }
   };
 
-  // Handle social sign up
+  /**
+   * Registers a user using a social provider.
+   * Redirects to dashboard on success.
+   */
   const handleSocialSignUp = async (provider, providerName) => {
     setLoading(true);
     setError('');

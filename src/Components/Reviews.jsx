@@ -1,5 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+/**
+ * Reviews Component
+ * 
+ * Displays customer testimonials in a carousel or grid format.
+ * Features:
+ * - Auto-rotating highlight for testimonials
+ * - Verified badge indicators
+ * - Rating visualization
+ */
+
+/**
+ * Static Data: Customer Testimonials
+ * Feedback from previous clients.
+ */
 const testimonials = [
   {
     name: "Ahmad Hassan",
@@ -49,7 +63,10 @@ export default function Reviews() {
     return () => observer.disconnect();
   }, []);
 
-  // Auto-rotate testimonials
+  /**
+   * Effect: Carousel Auto-Rotation
+   * Cycles through testimonials every 5 seconds to highlight different reviews.
+   */
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % testimonials.length);
@@ -102,8 +119,8 @@ export default function Reviews() {
                   <svg
                     key={starIndex}
                     className={`w-5 h-5 transition-all duration-300 ${starIndex < item.rating
-                        ? 'text-primary fill-primary'
-                        : 'text-gray-200 fill-gray-200'
+                      ? 'text-primary fill-primary'
+                      : 'text-gray-200 fill-gray-200'
                       }`}
                     viewBox="0 0 20 20"
                   >

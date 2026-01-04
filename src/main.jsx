@@ -1,35 +1,52 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+// Global Styles
 import './index.css'
+
+// Top Level App Component
 import App from './App.jsx'
+
+// Page Components used in Routing
 import SignIn from './Pages/SignIn.jsx'
 import SignUp from './Pages/SignUp.jsx'
 import TourDetails from './Pages/TourDetails.jsx'
 import AdminDashboard from './Pages/AdminDashboard.jsx'
 import Dashboard from './Pages/Dashboard.jsx'
 
+/**
+ * Main Application Entry Point
+ * 
+ * Sets up the React Root directory and renders the application wrapped in:
+ * - StrictMode: For additional checks and warnings during development.
+ * - BrowserRouter: To enable client-side routing.
+ * 
+ * Defines the primary Route structure of the application.
+ */
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        {/* Main Landing Page with all sections */}
+        {/* Main Landing Page with all sections (Home, Tours, Services, etc.) */}
         <Route path="/" element={<App />} />
 
-        {/* Authentication Pages */}
+        {/* Authentication Routes */}
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
 
-        {/* Dynamic Tour Details Page */}
+        {/* Dynamic User Routes */}
+        {/* Displays specific tour details based on the ID parameter */}
         <Route path="/tour/:id" element={<TourDetails />} />
 
-        {/* User Dashboard */}
+        {/* User Account Dashboard */}
         <Route path="/dashboard" element={<Dashboard />} />
 
-        {/* Admin Dashboard to manage bookings */}
+        {/* Administrative Routes */}
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admindashboard" element={<AdminDashboard />} />
 
-        {/* 404 - Catch all unmatched routes */}
+        {/* 404 Error Page - Catch-all for undefined routes */}
         <Route path="*" element={
           <div className="min-h-screen bg-gradient-to-br from-bg-light via-white to-bg-light flex items-center justify-center p-6">
             <div className="text-center">

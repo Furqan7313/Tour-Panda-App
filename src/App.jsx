@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
+// Component Imports
 import Navbar from './Components/Navbar';
 import Hero from './Components/Hero';
 import Tours from './Components/Tours';
@@ -10,14 +11,30 @@ import Reviews from './Components/Reviews';
 import Contact from './Components/Contact';
 import Footer from './Components/Footer';
 
+/**
+ * App Component
+ * 
+ * This component acts as the main landing page layout for the application.
+ * It structures the single-page scrollable sections including:
+ * - Navbar: Top navigation
+ * - Hero: Main banner/introduction
+ * - Tours: Featured tours section
+ * - Services: Company services highlights
+ * - Gallery: Visual content showcase
+ * - Reviews: User testimonials
+ * - Contact: Contact form and information
+ * - Footer: Site footer
+ * 
+ * It also includes a global floating WhatsApp button for direct communication.
+ */
 const App = () => {
   return (
     <div className="min-h-screen bg-bg-light font-sans selection:bg-primary selection:text-white">
 
-      {/* Navigation */}
+      {/* Navigation Bar */}
       <Navbar />
 
-      {/* Main Content - Landing Page Sections */}
+      {/* Main Content Area - Landing Page Sections */}
       <main>
         <section id="home"><Hero /></section>
         <section id="tours"><Tours /></section>
@@ -27,10 +44,11 @@ const App = () => {
         <section id="contact"><Contact /></section>
       </main>
 
-      {/* Footer */}
+      {/* Application Footer */}
       <Footer />
 
-      {/* WhatsApp Floating Button - Enhanced */}
+      {/* Floating Action Button (FAB) for WhatsApp */}
+      {/* Persists across the scrolling page, positioned at the bottom right */}
       <a
         href="https://wa.me/message/HJDPGMFFZNI3H1"
         target="_blank"
@@ -38,17 +56,17 @@ const App = () => {
         className="group fixed bottom-8 right-8 z-[150] flex items-center gap-3"
         aria-label="Chat on WhatsApp"
       >
-        {/* Tooltip */}
+        {/* Tooltip: Shows on hover for desktop users */}
         <span className="hidden sm:block bg-white text-nature-black px-4 py-2 rounded-full font-bold text-sm shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-4 group-hover:translate-x-0">
           Chat with us!
         </span>
 
-        {/* Button */}
+        {/* Button Container with Pulse Effect */}
         <div className="relative">
-          {/* Pulse Animation */}
+          {/* Animated Pulse Ring */}
           <span className="absolute inset-0 bg-[#25D366] rounded-full animate-ping opacity-30" />
 
-          {/* Main Button */}
+          {/* Icon Button */}
           <div className="relative bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white p-4 rounded-full shadow-lg shadow-[#25D366]/40 hover:shadow-xl hover:shadow-[#25D366]/50 hover:scale-110 transition-all duration-300">
             <svg
               className="w-7 h-7 fill-current"
