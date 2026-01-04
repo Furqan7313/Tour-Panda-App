@@ -58,7 +58,7 @@ export default function BookingModal({ isOpen, onClose, preSelectedPackage = nul
         address: '',
         tourCategory: '',
         tripPackage: preSelectedPackage || '',
-        maleCount: 1,
+        maleCount: 0,
         femaleCount: 0,
         childrenCount: 0,
         startDate: '',
