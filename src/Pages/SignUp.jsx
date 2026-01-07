@@ -195,7 +195,7 @@ export default function SignUp() {
                     type="text"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    placeholder="John Doe"
+                    placeholder="User Name"
                     onFocus={() => setFocusedInput('name')}
                     onBlur={() => setFocusedInput(null)}
                     className={`w-full p-4 pl-12 bg-gray-50/80 rounded-xl border-2 outline-none transition-all duration-300 ${focusedInput === 'name'
@@ -225,7 +225,7 @@ export default function SignUp() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="john@example.com"
+                    placeholder="Enter your Email Address"
                     onFocus={() => setFocusedInput('email')}
                     onBlur={() => setFocusedInput(null)}
                     className={`w-full p-4 pl-12 bg-gray-50/80 rounded-xl border-2 outline-none transition-all duration-300 ${focusedInput === 'email'

@@ -155,7 +155,7 @@ export default function SignIn() {
                   type="email"
                   value={magicLinkEmail}
                   onChange={(e) => setMagicLinkEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  placeholder="Enter your Email Address"
                   className="w-full p-4 bg-gray-50 rounded-xl border-2 border-transparent focus:border-primary focus:bg-white outline-none transition-all mb-4"
                 />
                 <div className="flex gap-3">
@@ -317,7 +317,7 @@ export default function SignIn() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="john@example.com"
+                    placeholder="Enter your Email Address"
                     onFocus={() => setFocusedInput('email')}
                     onBlur={() => setFocusedInput(null)}
                     className={`w-full p-4 pl-12 bg-gray-50/80 rounded-xl border-2 outline-none transition-all duration-300 ${focusedInput === 'email'
