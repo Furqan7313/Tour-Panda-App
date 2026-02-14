@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth } from '../firebase';
+import { db, auth } from '../firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestore';
 
 /**
  * Dashboard Component
@@ -19,6 +20,7 @@ export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [userBookings, setUserBookings] = useState([]);
 
   /**
    * Effect: Auth State Listener
@@ -28,11 +30,54 @@ export default function Dashboard() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setLoading(false);
+      if (!currentUser) {
+        setLoading(false);
+        navigate('/signin');
+      }
     });
 
     return () => unsubscribe();
   }, [navigate]);
+
+  /**
+   * Effect: Fetch User Bookings
+   * Listens to real-time updates for bookings made by the current user.
+   */
+  useEffect(() => {
+    if (user?.email) {
+      // Query bookings where userEmail matches the logged-in user's email
+      // Note: In a production app, checking userId is better, but email is safer here for legacy/simple auth matching
+      const q = query(
+        collection(db, "bookings"),
+        where("userEmail", "==", user.email),
+        orderBy("createdAt", "desc")
+      );
+
+      const unsubscribeBookings = onSnapshot(q, (snapshot) => {
+        const bookingsData = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+          // Format date for display
+          date: doc.data().startDate ? new Date(doc.data().startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'TBD'
+        }));
+        setUserBookings(bookingsData);
+        setLoading(false);
+      }, (error) => {
+        console.error("Error fetching bookings:", error);
+        setLoading(false);
+        // Fallback for indexing errors or permission issues
+        if (error.code === 'failed-precondition') {
+          console.warn("Missing index for query. Please create index in Firestore.");
+        }
+      });
+
+      return () => unsubscribeBookings();
+    } else if (user === null) {
+      // If user is definitely null (after auth check), stop loading
+      // handled in auth check
+    }
+  }, [user]);
+
 
   /**
    * Signs out the current user and redirects to login page.
@@ -68,17 +113,11 @@ export default function Dashboard() {
     return 'Good Evening';
   };
 
-  const myBookings = [
-    { id: 1, destination: "Hunza + Skardu", date: "Jan 15, 2026", status: "Confirmed", img: "https://images.unsplash.com/photo-1586348943529-beaae6c28db9?auto=format&fit=crop&w=400", price: "PKR 85,000", duration: "8 Days" },
-    { id: 2, destination: "Fairy Meadows", date: "Feb 20, 2026", status: "Pending", img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=400", price: "PKR 45,000", duration: "5 Days" },
-    { id: 3, destination: "Swat Kalam Malamjaba", date: "Mar 10, 2026", status: "Confirmed", img: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=400", price: "PKR 28,000", duration: "3 Days" },
-  ];
-
   const stats = [
-    { label: "Total Trips", value: "12", icon: "✈️", color: "from-emerald-500 to-teal-600", trend: "+3 this year", trendUp: true },
-    { label: "Countries Visited", value: "3", icon: "🌍", color: "from-amber-500 to-orange-500", trend: "Pakistan, UAE, Turkey", trendUp: null },
-    { label: "Travel Miles", value: "8.5K", icon: "🛤️", color: "from-blue-500 to-indigo-600", trend: "+2.1K this month", trendUp: true },
-    { label: "Saved Tours", value: "5", icon: "❤️", color: "from-rose-500 to-pink-600", trend: "2 new deals", trendUp: true },
+    { label: "Total Trips", value: userBookings.length || "0", icon: "✈️", color: "from-emerald-500 to-teal-600", trend: "Lifetime", trendUp: true },
+    { label: "Pending", value: userBookings.filter(b => b.status === 'Pending').length || "0", icon: "⏳", color: "from-amber-500 to-orange-500", trend: "Awaiting Confirmation", trendUp: null },
+    { label: "Confirmed", value: userBookings.filter(b => b.status === 'Confirmed').length || "0", icon: "✅", color: "from-blue-500 to-indigo-600", trend: "Ready to go", trendUp: true },
+    { label: "Saved Tours", value: "0", icon: "❤️", color: "from-rose-500 to-pink-600", trend: "Wishlist", trendUp: true },
   ];
 
   const navItems = [
@@ -345,18 +384,20 @@ export default function Dashboard() {
             </div>
 
             <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-              {myBookings.map((booking, index) => (
+              {userBookings.map((booking, index) => (
                 <div
                   key={booking.id}
                   className="group bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-premium hover:shadow-premium-lg transition-all duration-500 border border-gray-50 card-hover-lift"
                   style={{ animationDelay: `${index * 150}ms` }}
                 >
-                  {/* Image */}
-                  <div className="relative h-32 sm:h-40 overflow-hidden">
+                  {/* Image Placeholder or Actual Image if available */}
+                  <div className="relative h-32 sm:h-40 overflow-hidden bg-gray-100">
+                    {/* For now, using a placeholder if we don't have booking-specific images, or use a default */}
                     <img
-                      src={booking.img}
+                      src={`https://source.unsplash.com/random/400x300/?${booking.destination?.split(' ')[0] || 'mountain'}`}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      alt={booking.destination}
+                      alt={booking.destination || "Trip"}
+                      onError={(e) => e.target.src = "https://images.unsplash.com/photo-1586348943529-beaae6c28db9?auto=format&fit=crop&w=400"}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
@@ -364,24 +405,30 @@ export default function Dashboard() {
                     <span
                       className={`absolute top-3 right-3 px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-wider backdrop-blur-sm ${booking.status === 'Confirmed'
                         ? 'bg-green-500/90 text-white'
-                        : 'bg-amber-500/90 text-white'
+                        : booking.status === 'Pending'
+                          ? 'bg-amber-500/90 text-white'
+                          : 'bg-red-500/90 text-white'
                         }`}
                     >
                       {booking.status === 'Confirmed' && '✓ '}{booking.status}
                     </span>
 
-                    {/* Duration Badge */}
-                    <span className="absolute bottom-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-[10px] sm:text-xs font-bold text-nature-black">
-                      {booking.duration}
-                    </span>
+                    {/* Duration Badge if available */}
+                    {/* <span className="absolute bottom-3 left-3 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-[10px] sm:text-xs font-bold text-nature-black">
+                      {booking.duration || 'Custom'}
+                    </span> */}
                   </div>
 
                   {/* Content */}
                   <div className="p-4 sm:p-5">
                     <h4 className="font-black text-nature-black text-base sm:text-lg group-hover:text-nature-green transition-colors duration-300">
-                      {booking.destination}
+                      {booking.tripPackage ? (booking.tripPackage.replace(/-|\d+days/g, " ").toUpperCase()) : (booking.destination || "Custom Trip")}
                     </h4>
-                    <div className="flex items-center gap-1.5 text-gray-400 text-xs sm:text-sm mt-1">
+                    <p className="text-xs text-gray-400 font-bold uppercase mt-1">
+                      {booking.tripPackage ? booking.tripPackage : "Custom Booking"}
+                    </p>
+
+                    <div className="flex items-center gap-1.5 text-gray-400 text-xs sm:text-sm mt-3">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
@@ -389,7 +436,9 @@ export default function Dashboard() {
                     </div>
 
                     <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-                      <span className="text-nature-green font-black text-lg sm:text-xl">{booking.price}</span>
+                      <span className="text-nature-green font-black text-lg sm:text-xl">
+                        {booking.totalPrice ? `PKR ${booking.totalPrice}` : "Quote Pending"}
+                      </span>
                       <button className="flex items-center gap-1 text-xs font-bold text-gray-400 hover:text-nature-green transition-colors group/btn">
                         View Details
                         <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -403,7 +452,7 @@ export default function Dashboard() {
             </div>
 
             {/* Empty State */}
-            {myBookings.length === 0 && (
+            {userBookings.length === 0 && (
               <div className="bg-white rounded-3xl p-12 text-center border border-gray-100 shadow-premium">
                 <div className="w-20 h-20 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <span className="text-4xl">✈️</span>

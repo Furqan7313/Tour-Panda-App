@@ -15,6 +15,10 @@ import TourDetails from './Pages/TourDetails.jsx'
 import AdminDashboard from './Pages/AdminDashboard.jsx'
 import Dashboard from './Pages/Dashboard.jsx'
 
+// Route Protection Components
+import ProtectedRoute from './Components/ProtectedRoute.jsx'
+import AdminRoute from './Components/AdminRoute.jsx'
+
 /**
  * Main Application Entry Point
  * 
@@ -39,12 +43,24 @@ createRoot(document.getElementById('root')).render(
         {/* Displays specific tour details based on the ID parameter */}
         <Route path="/tour/:id" element={<TourDetails />} />
 
-        {/* User Account Dashboard */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        {/* User Account Dashboard - Protected */}
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
 
-        {/* Administrative Routes */}
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/admindashboard" element={<AdminDashboard />} />
+        {/* Administrative Routes - Admin Protected */}
+        <Route path="/admin" element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        } />
+        <Route path="/admindashboard" element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        } />
 
         {/* 404 Error Page - Catch-all for undefined routes */}
         <Route path="*" element={

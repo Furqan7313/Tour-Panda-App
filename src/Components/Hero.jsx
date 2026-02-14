@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SuccessModal from './SuccessModal';
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 /**
@@ -95,9 +95,15 @@ export default function Hero() {
     const formData = new FormData(e.target);
     const bookingData = Object.fromEntries(formData.entries());
 
+    // Get current user info if logged in
+    const user = auth.currentUser;
+
     try {
       await addDoc(collection(db, "bookings"), {
         ...bookingData,
+        // Link booking to user if authenticated
+        userId: user ? user.uid : null,
+        userEmail: user ? user.email : null,
         status: "Pending",
         createdAt: serverTimestamp()
       });

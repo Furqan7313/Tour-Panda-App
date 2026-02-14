@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * BookingModal Component
  * 
  * A comprehensive booking form modal.
  * Features:
+ * - Authentication check
  * - Dynamic data loading for packages and categories
  * - Form validation and calculation
  * - Firebase integration for booking submission
@@ -49,7 +52,24 @@ const tourCategories = [
  * @param {string|null} preSelectedPackage - ID of package to pre-select
  */
 export default function BookingModal({ isOpen, onClose, preSelectedPackage = null }) {
+    const navigate = useNavigate();
+    const [currentUser, setCurrentUser] = useState(null);
     const [status, setStatus] = useState("idle"); // idle | sending | success
+
+    // Auth Listener
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setCurrentUser(user);
+            if (user && isOpen) {
+                setFormData(prev => ({
+                    ...prev,
+                    fullName: prev.fullName || user.displayName || '',
+                    // If you wanted to prefill email, you could, but it's not in the visible fields currently
+                }));
+            }
+        });
+        return () => unsubscribe();
+    }, [isOpen]);
     const [formData, setFormData] = useState({
         fullName: '',
         phone: '',
@@ -144,6 +164,8 @@ export default function BookingModal({ isOpen, onClose, preSelectedPackage = nul
         try {
             await addDoc(collection(db, "bookings"), {
                 ...formData,
+                userId: currentUser?.uid,
+                userEmail: currentUser?.email,
                 totalGuests: getTotalGuests(),
                 tripDays: calculateTripDays(),
                 status: "Pending",
@@ -242,7 +264,29 @@ export default function BookingModal({ isOpen, onClose, preSelectedPackage = nul
 
                 {/* Form Content */}
                 <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(92vh-200px)]">
-                    {status === "success" ? (
+                    {!currentUser ? (
+                        <div className="flex flex-col items-center justify-center py-10 text-center">
+                            <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                                <span className="text-4xl">🔐</span>
+                            </div>
+                            <h3 className="text-xl font-black text-nature-black mb-2">Login Required</h3>
+                            <p className="text-gray-500 mb-6 max-w-xs">Please sign in to your account to book this adventure.</p>
+                            <div className="flex gap-3 w-full max-w-xs">
+                                <button
+                                    onClick={onClose}
+                                    className="flex-1 py-3 rounded-xl border-2 border-gray-200 font-bold text-gray-600 hover:bg-gray-50 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={() => { onClose(); navigate('/signin'); }}
+                                    className="flex-1 py-3 rounded-xl bg-nature-green text-white font-bold hover:bg-nature-green-dark transition-colors shadow-lg shadow-nature-green/30"
+                                >
+                                    Sign In
+                                </button>
+                            </div>
+                        </div>
+                    ) : status === "success" ? (
                         /* Success State */
                         <div className="text-center py-6 sm:py-8">
                             <div className="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-5 sm:mb-6">
