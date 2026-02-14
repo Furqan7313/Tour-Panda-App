@@ -350,174 +350,117 @@ export default function Tours() {
   };
 
   const getBadgeColor = (badge) => {
+    // Dark mode customized colors
     const colors = {
-      'Best Seller': 'bg-gradient-to-r from-amber-500 to-orange-500',
-      'Popular': 'bg-gradient-to-r from-blue-500 to-cyan-500',
-      'Adventure': 'bg-gradient-to-r from-red-500 to-rose-500',
-      'Hidden Gem': 'bg-gradient-to-r from-emerald-500 to-teal-500',
-      'Family Friendly': 'bg-gradient-to-r from-pink-500 to-rose-400',
-      'Scenic': 'bg-gradient-to-r from-purple-500 to-indigo-500',
-      'Weekend Trip': 'bg-gradient-to-r from-nature-green to-nature-green-light',
-      'Quick Escape': 'bg-gradient-to-r from-cyan-500 to-blue-500',
-      'Romantic': 'bg-gradient-to-r from-rose-500 to-pink-500',
-      'Nature': 'bg-gradient-to-r from-green-500 to-emerald-500',
-      'Day Trek': 'bg-gradient-to-r from-orange-500 to-amber-500',
-      'Budget': 'bg-gradient-to-r from-primary to-primary-dark',
-      'Educational': 'bg-gradient-to-r from-indigo-500 to-purple-500',
+      'Best Seller': 'bg-gradient-to-r from-amber-500 to-orange-500 text-white',
+      'Popular': 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white',
+      'Adventure': 'bg-gradient-to-r from-red-500 to-rose-500 text-white',
+      'Hidden Gem': 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white',
+      'Family Friendly': 'bg-gradient-to-r from-pink-500 to-rose-400 text-white',
+      'Scenic': 'bg-gradient-to-r from-purple-500 to-indigo-500 text-white',
+      'Weekend Trip': 'bg-gradient-to-r from-nature-green to-emerald-400 text-white',
+      'Quick Escape': 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white',
+      'Romantic': 'bg-gradient-to-r from-rose-500 to-pink-500 text-white',
+      'Nature': 'bg-gradient-to-r from-green-500 to-emerald-500 text-white',
+      'Day Trek': 'bg-gradient-to-r from-orange-500 to-amber-500 text-white',
+      'Budget': 'bg-gradient-to-r from-primary to-yellow-500 text-nature-black',
+      'Educational': 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white',
     };
-    return colors[badge] || 'bg-gray-500';
+    return colors[badge] || 'bg-gray-700 text-white';
   };
 
   const getDifficultyStyle = (difficulty) => {
     switch (difficulty) {
-      case 'Easy': return 'bg-emerald-100 text-emerald-700 border-emerald-200';
-      case 'Moderate': return 'bg-amber-100 text-amber-700 border-amber-200';
-      case 'Challenging': return 'bg-red-100 text-red-700 border-red-200';
-      default: return 'bg-gray-100 text-gray-700 border-gray-200';
+      case 'Easy': return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
+      case 'Moderate': return 'bg-amber-500/20 text-amber-300 border-amber-500/30';
+      case 'Challenging': return 'bg-red-500/20 text-red-300 border-red-500/30';
+      default: return 'bg-gray-500/20 text-gray-300 border-gray-500/30';
     }
   };
 
   return (
-    <section ref={sectionRef} id="tours" className="py-20 lg:py-28 bg-gradient-to-b from-white via-bg-light/30 to-white relative overflow-hidden">
-      {/* Decorative Background Elements */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-nature-green/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
-      <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl" />
+    <section ref={sectionRef} id="tours" className="py-20 lg:py-32 relative overflow-hidden bg-nature-black">
+      {/* Background Image with Overlay */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="https://images.unsplash.com/photo-1548685121-72a93974d619?q=80&w=2000&auto=format&fit=crop"
+          alt="Tours Background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-nature-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-nature-black via-transparent to-nature-black" />
+      </div>
 
-      <div className="container mx-auto px-4 sm:px-6 relative">
+      {/* Decorative Background Elements Removed */}
+
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
 
         {/* Section Header */}
-        <div className={`text-center max-w-3xl mx-auto mb-12 lg:mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="inline-flex items-center gap-2 bg-nature-green/10 text-nature-green px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest mb-5">
-            <span className="w-2 h-2 bg-nature-green rounded-full animate-pulse" />
+        <div className={`text-center max-w-3xl mx-auto mb-16 lg:mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 text-primary px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 backdrop-blur-md shadow-lg">
+            <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
             Pakistan's Premier Tours
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-nature-black mb-4 tracking-tight">
-            Explore <span className="text-nature-green">Breathtaking</span> Destinations
+          <h2 className="text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight drop-shadow-2xl">
+            Explore <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-yellow-200 to-primary">Breathtaking</span> Destinations
           </h2>
-          <p className="text-gray-500 text-base lg:text-lg leading-relaxed mb-6">
-            From day adventures to week-long expeditions, discover Pakistan's natural beauty with curated packages designed for every traveler
+          <p className="text-gray-400 text-lg leading-relaxed mb-8 max-w-2xl mx-auto font-light">
+            From day adventures to week-long expeditions, discover Pakistan's natural beauty with curated packages designed for every traveler.
           </p>
-
-          {/* Trust Indicators */}
-          <div className="flex flex-wrap justify-center gap-4 text-xs text-gray-500">
-            <div className="flex items-center gap-1.5 bg-white/80 px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
-              <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <span className="font-semibold">Verified Tours</span>
-            </div>
-            <div className="flex items-center gap-1.5 bg-white/80 px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
-              <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <span className="font-semibold">ID: 0243143</span>
-            </div>
-            <div className="flex items-center gap-1.5 bg-white/80 px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
-              <svg className="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-              <span className="font-semibold">5★ Rated</span>
-            </div>
-            <div className="flex items-center gap-1.5 bg-white/80 px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
-              <svg className="w-4 h-4 text-nature-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              <span className="font-semibold">Garden Town, Lahore</span>
-            </div>
-          </div>
         </div>
 
         {/* Tour Categories - Horizontal Scrolling Cards */}
-        <div className={`mb-14 transition-all duration-1000 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl lg:text-2xl font-black text-nature-black flex items-center gap-3">
-              <span className="w-10 h-10 bg-gradient-to-br from-nature-green to-nature-green-light rounded-xl flex items-center justify-center shadow-lg shadow-nature-green/20">
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className={`mb-24 transition-all duration-1000 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="flex items-center justify-between mb-8 px-2">
+            <h3 className="text-2xl font-black text-white flex items-center gap-3">
+              <span className="w-10 h-10 bg-white/10 text-primary rounded-xl flex items-center justify-center text-sm border border-white/10 backdrop-blur-md">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
               </span>
-              Tour Categories
+              Top Categories
             </h3>
           </div>
 
-          {/* Scrollable Container - Auto scrolls */}
           <div
             ref={categoryScrollRef}
-            className="flex gap-4 lg:gap-5 overflow-x-auto pb-4 scroll-smooth scrollbar-thin scrollbar-thumb-nature-green/30 scrollbar-track-transparent hover:scrollbar-thumb-nature-green/50"
+            className="flex gap-5 lg:gap-6 overflow-x-auto pb-6 scroll-smooth scrollbar-hide px-2 items-stretch"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {tourCategories.map((cat, index) => (
               <Link
                 key={cat.id}
                 to={`/tour/${cat.id}`}
-                className="group flex-shrink-0 w-48 sm:w-56 lg:w-64 bg-white rounded-2xl lg:rounded-3xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-nature-green/15 hover:-translate-y-2 snap-start border border-gray-100 hover:border-nature-green/30"
-                style={{ animationDelay: `${index * 50}ms` }}
+                className="group relative flex-shrink-0 w-64 lg:w-72 bg-white/5 border border-white/10 rounded-[2rem] overflow-hidden hover:bg-white/10 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_10px_40px_-10px_rgba(253,184,19,0.1)]"
               >
-                {/* Image Container */}
-                <div className="relative h-28 sm:h-32 lg:h-36 overflow-hidden">
+                <div className="relative h-48 overflow-hidden rounded-[2rem] m-2">
                   <img
                     src={cat.img}
                     alt={cat.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  {/* Subtle overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                  {/* Category Badge */}
-                  <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm px-2 py-0.5 rounded-md shadow-md">
-                    <span className="text-[9px] lg:text-[10px] font-bold text-nature-green uppercase tracking-wider">Category</span>
-                  </div>
-
-                  {/* Arrow icon on hover */}
-                  <div className="absolute bottom-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110">
-                    <svg className="w-4 h-4 text-nature-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-nature-black/90 via-transparent to-transparent opacity-90" />
                 </div>
-
-                {/* Content Below Image */}
-                <div className="p-3 lg:p-4">
-                  <h4 className="font-bold text-nature-black text-sm lg:text-base mb-1 group-hover:text-nature-green transition-colors duration-300 line-clamp-1">
-                    {cat.name}
-                  </h4>
-                  <p className="text-gray-500 text-[11px] lg:text-xs font-medium line-clamp-2 mb-2">{cat.desc}</p>
-
-                  {/* Arrow CTA */}
-                  <div className="flex items-center gap-1.5 text-nature-green font-semibold text-[11px] lg:text-xs group-hover:gap-2.5 transition-all duration-300">
-                    <span>View Tours</span>
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </div>
+                <div className="px-5 pb-5 pt-2">
+                  <h4 className="font-bold text-lg mb-1 text-white group-hover:text-primary transition-colors">{cat.name}</h4>
+                  <p className="text-gray-400 text-xs line-clamp-2">{cat.desc}</p>
                 </div>
               </Link>
             ))}
 
-            {/* Custom Tour Card - Opens Booking Modal */}
+            {/* Custom Tour Card */}
             <button
               onClick={() => setIsModalOpen(true)}
-              className="group relative flex-shrink-0 w-48 sm:w-56 lg:w-64 h-44 sm:h-48 lg:h-56 rounded-2xl lg:rounded-3xl overflow-hidden bg-gradient-to-br from-primary via-primary to-primary-dark transition-all duration-500 hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-2 snap-start flex flex-col items-center justify-center text-center p-5 border-2 border-primary/30 cursor-pointer"
+              className="group relative flex-shrink-0 w-64 lg:w-72 bg-gradient-to-br from-primary/20 to-nature-green/20 border border-primary/30 rounded-[2rem] overflow-hidden flex flex-col justify-center items-center text-center p-6 hover:-translate-y-2 transition-all duration-500 hover:shadow-[0_0_30px_rgba(253,184,19,0.2)]"
             >
-              {/* Decorative Pattern */}
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute top-4 right-4 w-20 h-20 border-2 border-nature-black rounded-full" />
-                <div className="absolute bottom-4 left-4 w-16 h-16 border-2 border-nature-black rounded-full" />
-              </div>
-
-              <div className="w-14 h-14 lg:w-16 lg:h-16 bg-nature-black/20 rounded-2xl flex items-center justify-center mb-3 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
-                <svg className="w-7 h-7 lg:w-8 lg:h-8 text-nature-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              <div className="w-16 h-16 bg-gradient-to-br from-primary to-yellow-500 rounded-full flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform">
+                <svg className="w-8 h-8 text-nature-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
                 </svg>
               </div>
-              <h4 className="font-black text-nature-black text-base lg:text-lg mb-1">Custom Tour</h4>
-              <p className="text-nature-black/70 text-xs lg:text-sm font-medium">Design your dream adventure</p>
-
-              {/* CTA hint */}
-              <div className="mt-3 px-4 py-1.5 bg-nature-black/20 rounded-full text-nature-black text-xs font-bold group-hover:bg-nature-black group-hover:text-primary transition-all duration-300">
-                Book Now
-              </div>
+              <h4 className="font-bold text-xl mb-1 text-white">Make Your Own</h4>
+              <p className="text-sm text-gray-300 mb-5">Design a custom itinerary tailored to your preferences.</p>
+              <span className="bg-primary text-nature-black px-6 py-2 rounded-full text-xs font-bold group-hover:bg-white transition-colors">Start Planning</span>
             </button>
           </div>
         </div>
@@ -526,25 +469,21 @@ export default function Tours() {
         <div className={`transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
 
           {/* Section Title & Filter Bar */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-8">
-            <div className="flex items-center gap-3">
-              <h3 className="text-xl lg:text-2xl font-black text-nature-black">
-                Trip Packages
-              </h3>
-              <span className="bg-nature-green text-white text-xs font-bold px-3 py-1 rounded-full">
-                {tripPackages.length} Tours
-              </span>
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 mb-12">
+            <div>
+              <h3 className="text-3xl font-black text-white mb-2">Available Packages</h3>
+              <p className="text-gray-400 text-sm">Choose from {tripPackages.length} curated experiences</p>
             </div>
 
             {/* Filter Pills */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 no-scrollbar">
+            <div className="flex items-center gap-2 overflow-x-auto pb-4 lg:pb-0 no-scrollbar">
               {filterOptions.map((filter) => (
                 <button
                   key={filter.id}
                   onClick={() => setActiveFilter(filter.id)}
-                  className={`px-4 py-2.5 rounded-xl font-semibold text-sm whitespace-nowrap transition-all duration-300 ${activeFilter === filter.id
-                    ? 'bg-nature-green text-white shadow-lg shadow-nature-green/25'
-                    : 'bg-white text-gray-600 border border-gray-200 hover:border-nature-green/30 hover:text-nature-green'
+                  className={`px-6 py-3 rounded-full font-bold text-sm whitespace-nowrap transition-all duration-300 border ${activeFilter === filter.id
+                    ? 'bg-primary text-nature-black border-primary shadow-[0_0_15px_rgba(253,184,19,0.4)]'
+                    : 'bg-white/5 text-gray-400 border-white/10 hover:border-primary/50 hover:text-white'
                     }`}
                 >
                   {filter.label}
@@ -554,96 +493,79 @@ export default function Tours() {
           </div>
 
           {/* Trips Grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 lg:gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
             {filteredTrips.map((trip, index) => (
               <div
                 key={trip.id}
-                className={`group relative bg-white rounded-[1.5rem] overflow-hidden transition-all duration-500 border border-gray-100 hover:border-transparent flex flex-col shadow-sm hover:shadow-2xl hover:shadow-nature-green/10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                className={`group bg-white/5 border border-white/10 backdrop-blur-sm rounded-[2rem] overflow-hidden transition-all duration-500 hover:border-primary/30 hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] hover:-translate-y-2 flex flex-col ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                   }`}
-                style={{ transitionDelay: `${index * 40}ms` }}
+                style={{ transitionDelay: `${index * 50}ms` }}
               >
                 {/* Image Container */}
-                <div className="relative h-44 lg:h-48 overflow-hidden">
+                <div className="relative h-64 overflow-hidden">
                   <img
                     src={trip.img}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     alt={trip.name}
                     loading="lazy"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-nature-black via-transparent to-transparent opacity-90" />
 
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-
-                  {/* Top Badges Row */}
-                  <div className="absolute top-3 left-3 right-3 flex items-start justify-between">
-                    {/* Category Badge */}
-                    <span className={`${getBadgeColor(trip.badge)} text-white text-[10px] font-bold px-2.5 py-1 rounded-lg shadow-lg backdrop-blur-sm`}>
+                  <div className="absolute top-4 left-4 flex gap-2">
+                    <span className={`${getBadgeColor(trip.badge)} text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg`}>
                       {trip.badge}
-                    </span>
-
-                    {/* Difficulty Badge */}
-                    <span className={`${getDifficultyStyle(trip.difficulty)} text-[10px] font-bold px-2.5 py-1 rounded-lg border backdrop-blur-sm`}>
-                      {trip.difficulty}
                     </span>
                   </div>
 
-                  {/* Bottom Info on Image */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <div className="flex items-end justify-between">
-                      <div>
-                        <span className="text-white/70 text-[10px] font-medium uppercase tracking-wider">From</span>
-                        <p className="text-white font-black text-xl">PKR {trip.price}</p>
-                      </div>
-                      <div className="flex items-center gap-1.5 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full">
-                        <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="absolute bottom-4 left-5 right-5 flex justify-between items-end text-white">
+                    <div>
+                      <p className="text-xs font-bold text-primary mb-0.5 uppercase tracking-wider">Starting From</p>
+                      <p className="font-black text-xl">PKR {trip.price}</p>
+                    </div>
+                    <div className="text-right">
+                      <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
+                        <svg className="w-3.5 h-3.5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span className="text-white text-xs font-bold">{trip.duration}</span>
+                        <span className="text-xs font-bold">{trip.duration}</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Content */}
-                <div className="p-4 lg:p-5 flex-grow flex flex-col">
-                  <h4 className="font-bold text-nature-black text-base lg:text-lg mb-2 group-hover:text-nature-green transition-colors duration-300 line-clamp-1">
-                    {trip.name}
-                  </h4>
-                  <p className="text-gray-500 text-sm mb-4 flex-grow leading-relaxed line-clamp-2">
+                <div className="p-6 flex-grow flex flex-col">
+                  <div className="flex justify-between items-start mb-4">
+                    <h4 className="font-bold text-white text-xl leading-tight group-hover:text-primary transition-colors">
+                      {trip.name}
+                    </h4>
+                  </div>
+
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className={`text-[10px] font-bold px-2.5 py-1 rounded border ${getDifficultyStyle(trip.difficulty)}`}>
+                      {trip.difficulty}
+                    </span>
+                    <div className="flex items-center gap-1 text-[10px] font-bold text-gray-300 bg-white/5 px-2.5 py-1 rounded border border-white/10">
+                      <span className="text-primary">★</span> 4.9
+                    </div>
+                  </div>
+
+                  <p className="text-gray-400 text-sm mb-6 line-clamp-2 leading-relaxed font-light">
                     {trip.desc}
                   </p>
 
-                  {/* Highlights */}
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {trip.highlights.slice(0, 3).map((highlight, i) => (
-                      <span
-                        key={i}
-                        className="text-[10px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded-md font-medium"
-                      >
-                        {highlight}
-                      </span>
-                    ))}
-                    {trip.highlights.length > 3 && (
-                      <span className="text-[10px] bg-nature-green/10 text-nature-green px-2 py-0.5 rounded-md font-semibold">
-                        +{trip.highlights.length - 3}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex gap-2 pt-3 border-t border-gray-100">
+                  <div className="mt-auto flex gap-3">
                     <Link
                       to={`/tour/${trip.id}`}
-                      className="flex-1 text-center py-2.5 text-nature-green border-2 border-nature-green/20 rounded-xl font-bold text-sm hover:bg-nature-green/5 hover:border-nature-green/40 transition-all duration-300"
+                      className="flex-1 py-3.5 text-center text-sm font-bold text-white border border-white/20 rounded-xl hover:bg-white/10 transition-colors"
                     >
-                      View Details
+                      Details
                     </Link>
                     <button
                       onClick={() => handleBookNow(trip.id)}
-                      className="flex-1 py-2.5 bg-gradient-to-r from-nature-green to-nature-green-light text-white rounded-xl font-bold text-sm hover:shadow-lg hover:shadow-nature-green/30 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 relative overflow-hidden group"
+                      className="flex-1 py-3.5 text-center text-sm font-bold text-nature-black bg-primary rounded-xl hover:bg-white hover:text-primary transition-colors shadow-lg hover:shadow-primary/40"
                     >
-                      <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500" />
-                      <span className="relative">Book Now</span>
+                      Book Now
                     </button>
                   </div>
                 </div>
@@ -653,52 +575,37 @@ export default function Tours() {
 
           {/* Empty State */}
           {filteredTrips.length === 0 && (
-            <div className="text-center py-16">
-              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <div className="text-center py-20 bg-white/5 rounded-[2rem] border border-dashed border-white/10 mt-10">
+              <div className="inline-block p-4 rounded-full bg-white/5 mb-4">
+                <svg className="w-10 h-10 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h4 className="text-xl font-bold text-nature-black mb-2">No trips found</h4>
-              <p className="text-gray-500">Try selecting a different filter</p>
+              <h4 className="text-xl font-bold text-white mb-2">No trips found</h4>
+              <p className="text-gray-500">Try adjusting your filters to find what you're looking for.</p>
             </div>
           )}
         </div>
 
         {/* Bottom CTA */}
-        <div className={`mt-16 lg:mt-20 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="relative bg-gradient-to-br from-nature-green via-nature-green-light to-nature-green rounded-[2rem] p-8 md:p-12 lg:p-16 overflow-hidden">
-            {/* Decorative Elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-primary/20 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2" />
-
-            <div className="relative z-10 text-center max-w-2xl mx-auto">
-              <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-white mb-4">
-                Can't Find Your Perfect Adventure?
+        <div className={`mt-24 transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="relative bg-gradient-to-r from-primary/10 via-primary/5 to-transparent rounded-[3rem] p-10 lg:p-16 overflow-hidden text-center border border-primary/20">
+            <div className="relative z-10 max-w-3xl mx-auto">
+              <h3 className="text-3xl lg:text-5xl font-black text-white mb-6">
+                Still dreaming of the <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-yellow-200">perfect trip?</span>
               </h3>
-              <p className="text-white/80 text-base lg:text-lg mb-8 leading-relaxed">
-                Tell us your dream destination and preferences. Our travel experts will craft a personalized itinerary just for you!
+              <p className="text-gray-300 text-lg mb-10 max-w-xl mx-auto">
+                Our travel experts can build a completely custom itinerary just for you. Tell us where you want to go, and we'll handle the rest.
               </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
                 <a
                   href="#contact"
-                  className="group inline-flex items-center gap-3 bg-white text-nature-green px-8 py-4 rounded-full font-bold transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 active:scale-100"
+                  className="inline-flex items-center justify-center gap-3 bg-primary text-nature-black px-10 py-4 rounded-full font-bold transition-all hover:scale-105 hover:bg-white hover:text-primary shadow-[0_0_20px_rgba(253,184,19,0.3)]"
                 >
-                  <span>Request Custom Tour</span>
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  Start Custom Plan
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
-                </a>
-                <a
-                  href="https://wa.me/message/HJDPGMFFZNI3H1"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-white font-semibold hover:text-primary transition-colors"
-                >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.484 8.412-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.309 1.656z" />
-                  </svg>
-                  <span>Chat on WhatsApp</span>
                 </a>
               </div>
             </div>
